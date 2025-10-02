@@ -1,11 +1,12 @@
 {
   "container": "quay.io/keycloak/keycloak:24.0",
   "about": "Keycloak identity provider used to secure Ploinky workspaces via SSO.",
-  "agent": "/opt/keycloak/bin/kc.sh start-dev --http-port=8080 --hostname-strict=false",
   "cli": "/opt/keycloak/bin/kc.sh",
   "env": [
     "KEYCLOAK_ADMIN",
-    "KEYCLOAK_ADMIN_PASSWORD"
+    "KEYCLOAK_ADMIN_PASSWORD",
+    "KC_HTTP_PORT",
+    "KC_HOSTNAME_STRICT"
   ],
   "ports": ["9090:8080"]
 }
