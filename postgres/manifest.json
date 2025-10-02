@@ -8,7 +8,5 @@
     "POSTGRES_USER",
     "POSTGRES_PASSWORD"
   ],
-  "ports": [
-    { "name": "db", "container": 5432, "protocol": "tcp", "primary": true }
-  ]
+  "ports": ["5432:5432"]
 }

@@ -13,7 +13,5 @@
     "KC_DB_PASSWORD"
   ],
   "enable": ["postgres"],
-  "ports": [
-    { "name": "http", "container": 8080, "protocol": "tcp", "primary": true }
-  ]
+  "ports": ["9090:8080"]
 }
