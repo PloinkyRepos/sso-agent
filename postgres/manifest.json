@@ -1,7 +1,6 @@
 {
   "container": "postgres:16",
   "about": "PostgreSQL database backing services for Keycloak SSO.",
-  "agent": "docker-entrypoint.sh postgres",
   "cli": "psql -h 127.0.0.1 -p ${POSTGRES_PORT:-5432} -U ${POSTGRES_USER:-keycloak}",
   "env": [
     "POSTGRES_DB",
