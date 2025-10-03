@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ploinky - Available Routes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .status {
+            padding: 1.5rem 2rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #28a745;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-text {
+            font-weight: 600;
+            color: #28a745;
+        }
+
+        .routes {
+            padding: 2rem;
+        }
+
+        .route-section {
+            margin-bottom: 2rem;
+        }
+
+        .route-section h2 {
+            font-size: 1.3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .route-list {
+            list-style: none;
+        }
+
+        .route-item {
+            background: #f8f9fa;
+            margin: 0.75rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .route-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .route-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            color: #333;
+            gap: 1rem;
+        }
+
+        .route-icon {
+            font-size: 1.5rem;
+        }
+
+        .route-info {
+            flex: 1;
+        }
+
+        .route-path {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #667eea;
+            margin-bottom: 0.25rem;
+        }
+
+        .route-description {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .route-arrow {
+            color: #667eea;
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+
+        .route-item:hover .route-arrow {
+            transform: translateX(5px);
+        }
+
+        .auth-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .auth-note strong {
+            color: #856404;
+        }
+
+        .footer {
+            padding: 1.5rem 2rem;
+            background: #f8f9fa;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .refresh-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: #5568d3;
+        }
+
+        #dynamicRoutes {
+            margin-top: 1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Ploinky Router</h1>
+            <p>Available Routes & Services</p>
+        </div>
+
+        <div class="status">
+            <div class="status-indicator"></div>
+            <div class="status-text">SSO Authentication Active</div>
+        </div>
+
+        <div class="routes">
+            <div class="auth-note">
+                <strong>🔒 Note:</strong> Most routes require authentication via Keycloak. Please log in to access protected resources.
+            </div>
+
+            <div class="route-section">
+                <h2>🌐 Core Routes</h2>
+                <ul class="route-list">
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:8080/" class="route-link" target="_blank">
+                            <span class="route-icon">🏠</span>
+                            <div class="route-info">
+                                <div class="route-path">/</div>
+                                <div class="route-description">Home page - redirects to dashboard</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:8080/dashboard" class="route-link" target="_blank">
+                            <span class="route-icon">📊</span>
+                            <div class="route-info">
+                                <div class="route-path">/dashboard</div>
+                                <div class="route-description">Main dashboard with agent overview</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:8080/status" class="route-link" target="_blank">
+                            <span class="route-icon">📈</span>
+                            <div class="route-info">
+                                <div class="route-path">/status</div>
+                                <div class="route-description">Server status and health information</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="route-section">
+                <h2>🔐 Authentication Routes</h2>
+                <ul class="route-list">
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:8080/auth/login" class="route-link" target="_blank">
+                            <span class="route-icon">🔑</span>
+                            <div class="route-info">
+                                <div class="route-path">/auth/login</div>
+                                <div class="route-description">Login via Keycloak SSO</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:8080/auth/logout" class="route-link" target="_blank">
+                            <span class="route-icon">🚪</span>
+                            <div class="route-info">
+                                <div class="route-path">/auth/logout</div>
+                                <div class="route-description">Logout and end session</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:8080/auth/callback" class="route-link">
+                            <span class="route-icon">↩️</span>
+                            <div class="route-info">
+                                <div class="route-path">/auth/callback</div>
+                                <div class="route-description">OAuth2 callback endpoint (automatic)</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="route-section">
+                <h2>🛠️ Interactive Tools</h2>
+                <ul class="route-list">
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:8080/webtty" class="route-link" target="_blank">
+                            <span class="route-icon">💻</span>
+                            <div class="route-info">
+                                <div class="route-path">/webtty</div>
+                                <div class="route-description">Web-based terminal interface</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:8080/webchat" class="route-link" target="_blank">
+                            <span class="route-icon">💬</span>
+                            <div class="route-info">
+                                <div class="route-path">/webchat</div>
+                                <div class="route-description">Web chat interface</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:8080/webmeet" class="route-link" target="_blank">
+                            <span class="route-icon">🎥</span>
+                            <div class="route-info">
+                                <div class="route-path">/webmeet</div>
+                                <div class="route-description">Web meeting interface</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="route-section">
+                <h2>🔧 Keycloak Administration</h2>
+                <ul class="route-list">
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:9090/" class="route-link" target="_blank">
+                            <span class="route-icon">👤</span>
+                            <div class="route-info">
+                                <div class="route-path">http://127.0.0.1:9090/</div>
+                                <div class="route-description">Keycloak Admin Console</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="route-item">
+                        <a href="http://127.0.0.1:9090/realms/master/.well-known/openid-configuration" class="route-link" target="_blank">
+                            <span class="route-icon">📋</span>
+                            <div class="route-info">
+                                <div class="route-path">/.well-known/openid-configuration</div>
+                                <div class="route-description">OpenID Connect configuration endpoint</div>
+                            </div>
+                            <span class="route-arrow">→</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="route-section">
+                <h2>🔄 Dynamic Routes</h2>
+                <button class="refresh-btn" onclick="loadDynamicRoutes()">🔄 Load from /status</button>
+                <div id="dynamicRoutes"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Ploinky</strong> - Modular Agent Orchestration Platform</p>
+            <p>SSO powered by Keycloak • Running on port 8080</p>
+        </div>
+    </div>
+
+    <script>
+        async function loadDynamicRoutes() {
+            const container = document.getElementById('dynamicRoutes');
+            container.innerHTML = '<div class="loading">⏳ Loading routes from server...</div>';
+
+            try {
+                const response = await fetch('http://127.0.0.1:8080/status');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                let html = '<ul class="route-list" style="margin-top: 1rem;">';
+                
+                // Show agent routes
+                if (data.agents && Array.isArray(data.agents)) {
+                    data.agents.forEach(agent => {
+                        if (agent.hostPort) {
+                            html += `
+                                <li class="route-item">
+                                    <a href="http://127.0.0.1:${agent.hostPort}/" class="route-link" target="_blank">
+                                        <span class="route-icon">🤖</span>
+                                        <div class="route-info">
+                                            <div class="route-path">Agent: ${agent.name || 'Unknown'}</div>
+                                            <div class="route-description">Port ${agent.hostPort} - ${agent.status || 'running'}</div>
+                                        </div>
+                                        <span class="route-arrow">→</span>
+                                    </a>
+                                </li>
+                            `;
+                        }
+                    });
+                }
+                
+                html += '</ul>';
+                
+                if (data.agents && data.agents.length === 0) {
+                    html = '<div class="auth-note" style="margin-top: 1rem;">ℹ️ No additional agent routes found</div>';
+                }
+                
+                container.innerHTML = html;
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="error" style="margin-top: 1rem;">
+                        <strong>❌ Error loading dynamic routes:</strong><br>
+                        ${error.message}<br>
+                        <small>You may need to authenticate first at <a href="http://127.0.0.1:8080/auth/login" target="_blank">http://127.0.0.1:8080/auth/login</a></small>
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-load on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(loadDynamicRoutes, 1000);
+        });
+    </script>
+</body>
+</html>
