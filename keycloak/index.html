@@ -204,8 +204,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Ploinky Router</h1>
-            <p>Available Routes & Services</p>
+            <h1>🚀 Ploinky Interactive Tools</h1>
+            <p>Access web-based interfaces</p>
         </div>
 
         <div class="status">
@@ -215,79 +215,7 @@
 
         <div class="routes">
             <div class="auth-note">
-                <strong>🔒 Note:</strong> Most routes require authentication via Keycloak. Please log in to access protected resources.
-            </div>
-
-            <div class="route-section">
-                <h2>🌐 Core Routes</h2>
-                <ul class="route-list">
-                    <li class="route-item">
-                        <a href="http://127.0.0.1:8080/" class="route-link" target="_blank">
-                            <span class="route-icon">🏠</span>
-                            <div class="route-info">
-                                <div class="route-path">/</div>
-                                <div class="route-description">Home page - redirects to dashboard</div>
-                            </div>
-                            <span class="route-arrow">→</span>
-                        </a>
-                    </li>
-                    <li class="route-item">
-                        <a href="http://127.0.0.1:8080/dashboard" class="route-link" target="_blank">
-                            <span class="route-icon">📊</span>
-                            <div class="route-info">
-                                <div class="route-path">/dashboard</div>
-                                <div class="route-description">Main dashboard with agent overview</div>
-                            </div>
-                            <span class="route-arrow">→</span>
-                        </a>
-                    </li>
-                    <li class="route-item">
-                        <a href="http://127.0.0.1:8080/status" class="route-link" target="_blank">
-                            <span class="route-icon">📈</span>
-                            <div class="route-info">
-                                <div class="route-path">/status</div>
-                                <div class="route-description">Server status and health information</div>
-                            </div>
-                            <span class="route-arrow">→</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="route-section">
-                <h2>🔐 Authentication Routes</h2>
-                <ul class="route-list">
-                    <li class="route-item">
-                        <a href="http://127.0.0.1:8080/auth/login" class="route-link" target="_blank">
-                            <span class="route-icon">🔑</span>
-                            <div class="route-info">
-                                <div class="route-path">/auth/login</div>
-                                <div class="route-description">Login via Keycloak SSO</div>
-                            </div>
-                            <span class="route-arrow">→</span>
-                        </a>
-                    </li>
-                    <li class="route-item">
-                        <a href="http://127.0.0.1:8080/auth/logout" class="route-link" target="_blank">
-                            <span class="route-icon">🚪</span>
-                            <div class="route-info">
-                                <div class="route-path">/auth/logout</div>
-                                <div class="route-description">Logout and end session</div>
-                            </div>
-                            <span class="route-arrow">→</span>
-                        </a>
-                    </li>
-                    <li class="route-item">
-                        <a href="http://127.0.0.1:8080/auth/callback" class="route-link">
-                            <span class="route-icon">↩️</span>
-                            <div class="route-info">
-                                <div class="route-path">/auth/callback</div>
-                                <div class="route-description">OAuth2 callback endpoint (automatic)</div>
-                            </div>
-                            <span class="route-arrow">→</span>
-                        </a>
-                    </li>
-                </ul>
+                <strong>🔒 Note:</strong> All interactive tools require authentication via Keycloak. Please log in to access.
             </div>
 
             <div class="route-section">
@@ -325,38 +253,6 @@
                     </li>
                 </ul>
             </div>
-
-            <div class="route-section">
-                <h2>🔧 Keycloak Administration</h2>
-                <ul class="route-list">
-                    <li class="route-item">
-                        <a href="http://127.0.0.1:9090/" class="route-link" target="_blank">
-                            <span class="route-icon">👤</span>
-                            <div class="route-info">
-                                <div class="route-path">http://127.0.0.1:9090/</div>
-                                <div class="route-description">Keycloak Admin Console</div>
-                            </div>
-                            <span class="route-arrow">→</span>
-                        </a>
-                    </li>
-                    <li class="route-item">
-                        <a href="http://127.0.0.1:9090/realms/master/.well-known/openid-configuration" class="route-link" target="_blank">
-                            <span class="route-icon">📋</span>
-                            <div class="route-info">
-                                <div class="route-path">/.well-known/openid-configuration</div>
-                                <div class="route-description">OpenID Connect configuration endpoint</div>
-                            </div>
-                            <span class="route-arrow">→</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="route-section">
-                <h2>🔄 Dynamic Routes</h2>
-                <button class="refresh-btn" onclick="loadDynamicRoutes()">🔄 Load from /status</button>
-                <div id="dynamicRoutes"></div>
-            </div>
         </div>
 
         <div class="footer">
@@ -365,63 +261,5 @@
         </div>
     </div>
 
-    <script>
-        async function loadDynamicRoutes() {
-            const container = document.getElementById('dynamicRoutes');
-            container.innerHTML = '<div class="loading">⏳ Loading routes from server...</div>';
-
-            try {
-                const response = await fetch('http://127.0.0.1:8080/status');
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const data = await response.json();
-                
-                let html = '<ul class="route-list" style="margin-top: 1rem;">';
-                
-                // Show agent routes
-                if (data.agents && Array.isArray(data.agents)) {
-                    data.agents.forEach(agent => {
-                        if (agent.hostPort) {
-                            html += `
-                                <li class="route-item">
-                                    <a href="http://127.0.0.1:${agent.hostPort}/" class="route-link" target="_blank">
-                                        <span class="route-icon">🤖</span>
-                                        <div class="route-info">
-                                            <div class="route-path">Agent: ${agent.name || 'Unknown'}</div>
-                                            <div class="route-description">Port ${agent.hostPort} - ${agent.status || 'running'}</div>
-                                        </div>
-                                        <span class="route-arrow">→</span>
-                                    </a>
-                                </li>
-                            `;
-                        }
-                    });
-                }
-                
-                html += '</ul>';
-                
-                if (data.agents && data.agents.length === 0) {
-                    html = '<div class="auth-note" style="margin-top: 1rem;">ℹ️ No additional agent routes found</div>';
-                }
-                
-                container.innerHTML = html;
-            } catch (error) {
-                container.innerHTML = `
-                    <div class="error" style="margin-top: 1rem;">
-                        <strong>❌ Error loading dynamic routes:</strong><br>
-                        ${error.message}<br>
-                        <small>You may need to authenticate first at <a href="http://127.0.0.1:8080/auth/login" target="_blank">http://127.0.0.1:8080/auth/login</a></small>
-                    </div>
-                `;
-            }
-        }
-
-        // Auto-load on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(loadDynamicRoutes, 1000);
-        });
-    </script>
 </body>
 </html>
